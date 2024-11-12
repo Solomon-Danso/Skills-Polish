@@ -1,0 +1,89 @@
+# Default Configuration
+server:
+  port: 5000
+
+spring:
+  profiles:
+    active: dev
+
+# Dev Profile
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/LearnSpring
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: HydotTech
+
+welcome:
+  message: Welcome to Hydot Tech (Development);
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  # Include all endpoints
+        exclude: "env, beans,mappings"
+
+# Test Profile
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/LearnSpringTest
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: TestPassword
+
+welcome:
+  message: Welcome to Hydot Tech (Testing);
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  # Include all endpoints
+      cors:
+        allowed-origins: "*"  # Allow CORS for all origins
+        allowed-methods: "GET,POST,PUT,DELETE"
+
+# Prod Profile
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  datasource:
+    url: jdbc:mysql://prod-db-server:3306/LearnSpringProd
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: prod_user
+    password: ProdSecurePassword
+
+welcome:
+  message: Welcome to Hydot Tech (Production);
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  # Include all endpoints
+      cors:
+        allowed-origins: "*"  # Allow CORS for all origins
+        allowed-methods: "GET,POST,PUT,DELETE"
