@@ -153,11 +153,54 @@ printStatusCode('404');
 
 ### TypeScript Function
 
+function add(a: number, b: number, ...rest: number[]) {
+  return a + b + rest.reduce((p, c) => p + c, 0);
+}
 
+console.log(add(10,10,10,10,10,10,2));
 
+### TypeScript Casting
 
+[*] Casting with as
 
+let x: unknown = 'hello';
+console.log((x as string).length);
 
+[*] Casting with <>
+
+let x: unknown = 'hello';
+console.log((<string>x).length);
+
+### TypeScript Classes
+
+[*] Members: Types
+class Person {
+  name: string;
+}
+      
+const person = new Person();
+person.name = "Jane";
+
+console.log(person);
+
+[*] Members: Visibility
+class Person {
+  private name: string;
+
+  public constructor(name: string) {
+    this.name = name;
+  }
+
+  public getName(): string {
+    return this.name;
+  }
+}
+      
+const person = new Person("Jane");
+
+console.log(person.getName()); // person.name isn't accessible from outside the class since it's private
+
+###  TypeScript Utility Types
 
 
 
