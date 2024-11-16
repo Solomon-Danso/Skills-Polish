@@ -1,64 +1,93 @@
-# Mastering Angular 
+# Mastering Angular
 
 ## Installation
-npm install -g @angular/cli 
-ng version 
+Install Angular CLI globally:
+
+```bash
+npm install -g @angular/cli
+```
+
+Check the installed version:
+
+```bash
+ng version
+```
 
 ## Create Project
+Create a new Angular project:
+
+```bash
 ng new wishlist
+```
 
-Run the application with the following command [ng serve]
+Run the application:
 
+```bash
+ng serve
+```
 
-## Component 
-Angular is like individual components combined into an app, just like individual  folders make a route in nextjs 
+---
 
-Every component consist of 
-1. component.ts => For the Javascript Code
+## Components
 
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+Angular applications are built from individual components, much like how Next.js uses folders to create routes.
 
-@Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
-})
-export class AppComponent {
-  title = 'Hydot';
-}
+### Structure of a Component
+A component consists of three files:
 
+1. **`component.ts`** - For the logic and behavior (TypeScript code).
 
-2. component.html => For the view
+   ```typescript
+   import { Component } from '@angular/core';
+   import { RouterOutlet } from '@angular/router';
 
-<div class="test">
-Hi {{title}}
+   @Component({
+     selector: 'app-root',
+     standalone: true,
+     imports: [RouterOutlet],
+     templateUrl: './app.component.html',
+     styleUrl: './app.component.css',
+   })
+   export class AppComponent {
+     title = 'Hydot';
+   }
+   ```
 
-</div>
+2. **`component.html`** - For the view (HTML).
 
+   ```html
+   <div class="test">
+     Hi {{title}}
+   </div>
+   ```
 
+3. **`component.css`** - For styles (CSS).
 
-3. component.css => for the style
+   ```css
+   .test {
+     background-color: red;
+   }
+   ```
 
-.test{
-  background-color: red;
-}
+### Key Properties of a Component
+- **@Component Decorator**: Defines metadata for the component.
+- **HTML Template**: Defines the DOM structure.
+- **CSS Selector**: Identifies the component in HTML.
+- **TypeScript Class**: Contains logic like state management and event handling.
 
-Every component has the following core properties:
+To generate a component:
 
-- A @Componentdecorator that contains some configuration
-- An HTML template that controls what renders into the DOM
-- A CSS selector that defines how the component is used in HTML
-- A TypeScript class with behaviors such as managing state, handling user input, or      fetching data from a server.
+```bash
+ng generate component ToDo
+```
 
-To create a component type this command [ng generate component ToDo]
+---
 
-## Importing 
-We are going to import the ToDo component into the app component and call it in the app.component.html file using the todo selector 
+## Importing Components
 
-- toDo Component
+### Example
+**`ToDoComponent`**:
+```typescript
 import { Component } from '@angular/core';
 
 @Component({
@@ -66,13 +95,15 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './to-do.component.html',
-  styleUrl: './to-do.component.css'
+  styleUrl: './to-do.component.css',
 })
 export class ToDoComponent {
-  fullName = "Solomon ToDo"
+  fullName = "Solomon ToDo";
 }
+```
 
-- app Component
+**`AppComponent`**:
+```typescript
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ToDoComponent } from './to-do/to-do.component';
@@ -82,23 +113,27 @@ import { ToDoComponent } from './to-do/to-do.component';
   standalone: true,
   imports: [RouterOutlet, ToDoComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
   title = 'Hydot';
 }
+```
 
-- app html 
+**`app.component.html`**:
+```html
 <app-to-do></app-to-do>
-
 <div class="test">
-Hi {{title}}
-
+  Hi {{title}}
 </div>
+```
 
-## Condifitonal Rendering
+---
 
-component.tsx
+## Conditional Rendering
+
+**`component.ts`**:
+```typescript
 import { Component } from '@angular/core';
 
 @Component({
@@ -106,137 +141,484 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './to-do.component.html',
-  styleUrl: './to-do.component.css'
+  styleUrl: './to-do.component.css',
 })
 export class ToDoComponent {
   fullName = "Solomon ToDo";
   formIsInvalid = false;
   isAdmin = false;
 }
+```
 
-component.html
-<p>to-do works! {{fullName}}</p>
-
+**`component.html`**:
+```html
+<p>To-do works! {{fullName}}</p>
 <button type="submit" [disabled]="formIsInvalid">Submit</button>
+<p *ngIf="isAdmin">Welcome Sir</p>
+<p *ngIf="!isAdmin">Welcome Employee</p>
+```
 
-
-@if(isAdmin){
-  <p>Welcome Sir</p>
-} @else{
-<p>Welcome Employee</p>
-}
+---
 
 ## Looping
 
+**`component.ts`**:
+```typescript
 ingredientList = [
-    {name: 'noodles', quantity: 1},
-    {name: 'miso broth', quantity: 1},
-    {name: 'egg', quantity: 2},
-  ];
+  { name: 'noodles', quantity: 1 },
+  { name: 'miso broth', quantity: 1 },
+  { name: 'egg', quantity: 2 },
+];
+```
 
-
+**`component.html`**:
+```html
 <ul>
-  @for (ingredient of ingredientList; track ingredient.name) {
-    <li>{{ ingredient.quantity }} - {{ ingredient.name }}</li>
-  }
+  <li *ngFor="let ingredient of ingredientList; trackBy: trackByFn">
+    {{ ingredient.quantity }} - {{ ingredient.name }}
+  </li>
 </ul>
+```
 
-The Track will be tracking the key
-
-
-
-
+---
 
 ## User Interaction
 
+**`component.html`**:
+```html
 <div style="display: flex; flex-direction: column; gap: 1rem; width: 10%; padding: 4rem;">
-  @for (ingredient of ingredientList; track ingredient.name) {
-
-    <button (click)="soloFunction(ingredient.name)">{{ ingredient.quantity }} - {{ ingredient.name }}</button>
-  }
+  <button *ngFor="let ingredient of ingredientList; trackBy: trackByFn" (click)="soloFunction(ingredient.name)">
+    {{ ingredient.quantity }} - {{ ingredient.name }}
+  </button>
 </div>
+```
 
-components.tsx
-soloFunction = (hey:any) =>{
-alert(hey)
+**`component.ts`**:
+```typescript
+soloFunction(name: string) {
+  alert(name);
+}
+```
 
-  }
+---
 
-## Sharing Logic
-What are services?
-Services are reusable pieces of code that can be injected
+## Sharing Logic with Services
 
-Create one with the following command [ng g s ChampionService]
+### Creating a Service
+```bash
+ng generate service ChampionService
+```
 
-in the champion-service.service.tsx file add this 
+**`champion-service.service.ts`**:
+```typescript
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class ChampionServiceService {
-
-  constructor() { }
-
-rollCall = (qty: number) =>{
-  alert(qty)
+export class ChampionService {
+  rollCall(qty: number) {
+    alert(qty);
+  }
 }
+```
 
-
-
-}
-
-
-then call it in the ToDo class as this 
-import { Component, Inject } from '@angular/core';
-import { ChampionServiceService } from '../champion-service.service';
+### Using the Service
+**`ToDoComponent.ts`**:
+```typescript
+import { Component } from '@angular/core';
+import { ChampionService } from '../champion-service.service';
 
 @Component({
   selector: 'app-to-do',
   standalone: true,
   imports: [],
   templateUrl: './to-do.component.html',
-  styleUrl: './to-do.component.css'
+  styleUrl: './to-do.component.css',
 })
 export class ToDoComponent {
-  fullName = "Solomon ToDo";
-  formIsInvalid = false;
-  isAdmin = false;
-
   ingredientList = [
-    {name: 'noodles', quantity: 1},
-    {name: 'miso broth', quantity: 1},
-    {name: 'egg', quantity: 2},
+    { name: 'noodles', quantity: 1 },
+    { name: 'miso broth', quantity: 1 },
+    { name: 'egg', quantity: 2 },
   ];
 
+  constructor(private rollCaller: ChampionService) {}
 
- soloFunction = (hey:any) =>{
-alert(hey)
-
+  quantity(qty: number) {
+    this.rollCaller.rollCall(qty);
   }
+}
+```
 
-  constructor(private rollCaller: ChampionServiceService) {}
+---
 
-  quantity = (qty:number) =>{
-    this.rollCaller.rollCall(qty)
+## Inputs
+
+Inputs are like React props, used to pass data to a child component.
+
+**`UserComponent.ts`**:
+```typescript
+import { Component, Input } from '@angular/core';
+
+@Component({
+  selector: 'app-user',
+  template: `
+    <p>The user's name is {{ username }}</p>
+  `,
+  standalone: true,
+})
+export class UserComponent {
+  @Input() username = '';
+}
+```
+
+**`AppComponent.ts`**:
+```typescript
+import { Component } from '@angular/core';
+import { UserComponent } from './user.component';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <app-user username="Solomon Money"></app-user>
+  `,
+  standalone: true,
+  imports: [UserComponent],
+})
+export class AppComponent {}
+```
+
+---
+
+## Outputs
+
+Outputs pass events from child to parent.
+
+**`ChildComponent.ts`**:
+```typescript
+import { Component, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-child',
+  template: `
+    <button (click)="toggler()">Toggle Message</button>
+  `,
+  standalone: true,
+})
+export class ChildComponent {
+  @Output() theEventer = new EventEmitter<boolean>();
+  display = false;
+
+  toggler() {
+    this.display = !this.display;
+    this.theEventer.emit(this.display);
   }
+}
+```
+
+**`AppComponent.ts`**:
+```typescript
+import { Component } from '@angular/core';
+import { ChildComponent } from './child.component';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <app-child (theEventer)="EventGrabber($event)"></app-child>
+    <p *ngIf="showMessage">Display this message</p>
+  `,
+  standalone: true,
+  imports: [ChildComponent],
+})
+export class AppComponent {
+  showMessage = false;
+
+  EventGrabber(item: boolean) {
+    this.showMessage = item;
+  }
+}
+```
 
 
+---
+
+## Deferrable Views
+
+we can load some of those resources later with deferrable views.
+
+**`AppComponent.ts`**:
+```typescript
+import {Component} from '@angular/core';
+import {CommentsComponent} from './comments.component';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <div>
+      <h1>How I feel about Angular</h1>
+      <article>
+        <p>
+          Angular is my favorite framework, and this is why. Angular has the coolest deferrable view
+        </p>
+      </article>
+
+      @defer (on viewport) {
+      <comments />
+      } @placeholder {
+      <p>Future comments</p>
+      } @loading (minimum 2s) {
+      <p>Loading comments...</p>
+      }
+    </div>
+  `,
+  standalone: true,
+  imports: [CommentsComponent],
+})
+export class AppComponent {}
+
+```
+
+
+**`CommentComponent.ts`**:
+```typescript
+import {Component} from '@angular/core';
+
+@Component({
+  selector: 'comments',
+  template: `
+    <ul>
+      <li>Building for the web is fantastic!</li>
+      <li>The new template syntax is great</li>
+      <li>I agree with the other comments!</li>
+    </ul>
+  `,
+  standalone: true,
+})
+export class CommentsComponent {}
+
+```
+
+
+---
+
+## Optimizing images
+
+we can load images faster.
+
+**`AppComponent.ts`**:
+```typescript
+import {Component} from '@angular/core';
+import {NgOptimizedImage} from '@angular/common';
+
+@Component({
+  standalone: true,
+  selector: 'app-user',
+  template: `
+    <p>Username: {{ username }}</p>
+    <p>Preferred Framework:</p>
+    <ul>
+      <li>
+        Static Image:
+        <img ngSrc="/assets/logo.svg" alt="Angular logo" width="32" height="32" priority/>
+      </li>
+      <li>
+        Dynamic Image:
+        <img [ngSrc]="logoUrl" [alt]="logoAlt" width="32" height="32" priority/>
+      </li>
+    </ul>
+  `,
+  imports: [NgOptimizedImage],
+})
+export class UserComponent {
+  logoUrl = '/assets/logo.svg';
+  logoAlt = 'Angular logo';
+  username = 'youngTech';
 }
 
-Link it to the html as this 
-<!-- ingredient-list.component.html -->
-<div style="display: flex; flex-direction: column; gap: 1rem; width: 10%; padding: 4rem;">
-Quantity
 
-  @for (ingredient of ingredientList; track ingredient.name) {
+```
 
-    <button (click)="quantity(ingredient.quantity)">{{ ingredient.quantity }} - {{ ingredient.name }}</button>
-  }
-</div>
+---
+
+## Enabling Routing
+With routing we can access different part of the application
+
+**`app.routes.ts`**:
+
+```typescript
+import {Routes} from '@angular/router'
+export const routes: Routes = [];
+```
+
+**`app.config.ts`**:
+
+```typescript
+import {ApplicationConfig} from '@angular/core';
+import {provideRouter} from '@angular/router';
+import {routes} from './app.routes';
+export const appConfig: ApplicationConfig = {
+  providers: [provideRouter(routes)],
+};
+```
+
+**`app.component.ts`**:
+
+```typescript
+import {Component} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <nav>
+      <a href="/">Home</a>
+      |
+      <a href="/user">User</a>
+    </nav>
+  `,
+  standalone: true,
+  imports: [RouterOutlet],
+})
+export class AppComponent {}
+
+```
+---
+
+## Defining Routing
+With routing we can access different part of the application
+
+**`app.routes.ts`**:
+
+```typescript
+import {Routes} from '@angular/router';
+import {HomeComponent} from './home/home.component';
+import {UserComponent} from './user/user.component';
+
+export const routes: Routes = [
+
+   {
+    path: '',
+     title: 'App Home Page',
+    component: HomeComponent,
+  },
+
+  {
+    path: '/user',
+    title: 'App User Page',
+    component: UserComponent,
+  },
+
+  
+
+  
+];
+
+```
+
+**`app.config.ts`**:
+
+```typescript
+import {ApplicationConfig} from '@angular/core';
+import {provideRouter} from '@angular/router';
+import {routes} from './app.routes';
+export const appConfig: ApplicationConfig = {
+  providers: [provideRouter(routes)],
+};
+```
+
+**`app.component.ts`**:
+
+```typescript
+import {Component} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <nav>
+      <a href="/">Home</a>
+      |
+      <a href="/user">User</a>
+    </nav>
+  `,
+  standalone: true,
+  imports: [RouterOutlet],
+})
+export class AppComponent {}
+
+```
+
+---
 
 
+## Linking Route
+With routing we can access different part of the application
 
+**`app.routes.ts`**:
+
+```typescript
+import {Routes} from '@angular/router';
+import {HomeComponent} from './home/home.component';
+import {UserComponent} from './user/user.component';
+
+export const routes: Routes = [
+
+   {
+    path: '',
+     title: 'App Home Page',
+    component: HomeComponent,
+  },
+
+  {
+    path: '/user',
+    title: 'App User Page',
+    component: UserComponent,
+  },
+
+  
+
+  
+];
+
+```
+
+**`app.config.ts`**:
+
+```typescript
+import {ApplicationConfig} from '@angular/core';
+import {provideRouter} from '@angular/router';
+import {routes} from './app.routes';
+export const appConfig: ApplicationConfig = {
+  providers: [provideRouter(routes)],
+};
+```
+
+**`app.component.ts`**:
+
+```typescript
+import {Component} from '@angular/core';
+import {RouterOutlet, RouterLink} from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <nav>
+      <a routerLink="/">Home</a>
+      |
+      <a routerLink="/user">User</a>
+    </nav>
+    <router-outlet />
+  `,
+  standalone: true,
+  imports: [RouterOutlet, RouterLink],
+})
+export class AppComponent {}
+
+
+```
+
+---
 
 
 
