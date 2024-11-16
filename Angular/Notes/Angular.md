@@ -622,4 +622,379 @@ export class AppComponent {}
 
 
 
+# Forms Overview
+
+In Angular, there are two types of forms: template-driven and reactive.
+
+### Template-driven approach.
+
+**`app.component.ts`**:
+
+```typescript
+import {Component} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+
+@Component({
+  selector: 'app-user',
+  template: `
+    <p>Username: {{ username }}</p>
+    <p>{{ username }}'s favorite framework: {{ favoriteInput }}</p>
+  
+        <input  type="text" [(ngModel)]="favoriteInput" placeholder="Enter Favourite Framework"/>
+  
+  `,
+  standalone: true,
+  imports: [FormsModule],
+})
+export class UserComponent {
+  favoriteInput = '';
+  username = 'youngTech';
+};
+
+
+
+```
+
+### Reactive Forms.
+
+**`app.component.ts`**:
+
+```typescript
+import {Component} from '@angular/core';
+import {FormGroup, FormControl} from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <form [formGroup]="profileForm" (ngSubmit)="handleSubmit()">
+      <input type="text" formControlName="name" />
+      <input type="email" formControlName="email" />
+      <button type="submit">Submit</button>
+    </form>
+
+    <h2>Profile Form</h2>
+    <p>Name: {{ profileForm.value.name }}</p>
+    <p>Email: {{ profileForm.value.email }}</p>
+  `,
+  standalone: true,
+  imports: [ReactiveFormsModule],
+})
+export class AppComponent {
+  profileForm = new FormGroup({
+    name: new FormControl(''),
+    email: new FormControl(''),
+  });
+
+  handleSubmit() {
+    alert(this.profileForm.value.name + ' | ' + this.profileForm.value.email);
+  }
+}
+
+
+
+```
+
+---
+
+## Validation
+
+**`app.component.ts`**:
+
+```typescript
+import {Component} from '@angular/core';
+import {FormGroup, FormControl} from '@angular/forms';
+import {ReactiveFormsModule, Validators} from '@angular/forms';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <form [formGroup]="profileForm">
+      <input type="text" formControlName="name" name="name" />
+      <input type="email" formControlName="email" name="email" />
+      <button type="submit" [disabled]="!profileForm.valid">Submit</button>
+    </form>
+  `,
+  standalone: true,
+  imports: [ReactiveFormsModule],
+})
+export class AppComponent {
+  profileForm = new FormGroup({
+    name: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.required, Validators.email]),
+  });
+}
+
+
+```
+
+---
+
+# Injectable Services
+
+**`car.service.ts`**:
+
+```typescript
+import {Injectable} from '@angular/core';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CarService {
+  cars = ['Sunflower GT', 'Flexus Sport', 'Sprout Mach One'];
+
+  getCars(): string[] {
+    return this.cars;
+  }
+
+  getCar(id: number) {
+    return this.cars[id];
+  }
+}
+
+```
+
+**`app.component.ts`**:
+
+```typescript
+import {Component, inject} from '@angular/core';
+import {CarService} from './car.service';
+
+@Component({
+  selector: 'app-root',
+  template: '<p> {{ carService.getCars() }} </p>',
+  standalone: true,
+})
+export class AppComponent {
+  carService = inject(CarService);
+}
+```
+---
+
+
+
+
+## Inject-based dependency injection Services
+
+**`car.service.ts`**:
+
+```typescript
+import {Injectable} from '@angular/core';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CarService {
+  cars = ['Sunflower GT', 'Flexus Sport', 'Sprout Mach One'];
+
+  getCars(): string[] {
+    return this.cars;
+  }
+
+  getCar(id: number) {
+    return this.cars[id];
+  }
+}
+
+```
+
+**`app.component.ts`**:
+
+```typescript
+import {Component, inject} from '@angular/core';
+import {CarService} from './car.service';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <p>Car Listing: {{ display }}</p>
+  `,
+  standalone: true,
+})
+export class AppComponent {
+  display = '';
+  carService = inject(CarService);
+
+  constructor() {
+    this.display = this.carService.getCars().join(' ⭐️ ');
+  }
+}
+
+
+```
+---
+
+
+## Constructor-based dependency injectio
+
+**`car.service.ts`**:
+
+```typescript
+import {Injectable} from '@angular/core';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CarService {
+  cars = ['Sunflower GT', 'Flexus Sport', 'Sprout Mach One'];
+
+  getCars(): string[] {
+    return this.cars;
+  }
+
+  getCar(id: number) {
+    return this.cars[id];
+  }
+}
+
+```
+
+**`app.component.ts`**:
+
+```typescript
+import {Component} from '@angular/core';
+import {CarService} from './car.service';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <p>Car Listing: {{ display }}</p>
+  `,
+  standalone: true,
+})
+export class AppComponent {
+  display = '';
+
+  constructor(private carService: CarService) {
+    this.display = this.carService.getCars().join(' ⭐️ ');
+  }
+}
+
+
+
+```
+---
+# Pipes
+
+Pipes are functions that are used to transform data in templates
+
+**`app.component.ts`**:
+
+```typescript
+import {Component} from '@angular/core';
+import {LowerCasePipe} from '@angular/common';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    {{ username | lowercase }}
+  `,
+  standalone: true,
+  imports: [LowerCasePipe],
+})
+export class AppComponent {
+  username = 'yOunGTECh';
+}
+
+
+```
+
+## Formatting data with pipes
+
+**`app.component.ts`**:
+
+```typescript
+import {Component} from '@angular/core';
+import {DecimalPipe, DatePipe, CurrencyPipe} from '@angular/common';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <ul>
+      <li>Number with "decimal" {{ num | number : '3.2-2' }}</li>
+      <li>Date with "date" {{ birthday | date : 'medium' }}</li>
+      <li>Currency with "currency" {{ cost | currency }}</li>
+    </ul>
+  `,
+  standalone: true,
+  imports: [DecimalPipe, DatePipe, CurrencyPipe],
+})
+export class AppComponent {
+  num = 103.1234;
+  birthday = new Date(2023, 3, 2);
+  cost = 4560.34;
+}
+
+
+
+```
+---
+
+
+## Create a pipe
+
+**`app.component.ts`**:
+
+```typescript
+import {Pipe, PipeTransform} from '@angular/core';
+
+@Pipe({
+  name: 'reverse',
+  standalone: true,
+})
+export class ReversePipe implements PipeTransform {
+  transform(value: string): string {
+    let reverse = '';
+
+    for (let i = value.length - 1; i >= 0; i--) {
+      reverse += value[i];
+    }
+
+    return reverse;
+  }
+}
+
+
+```
+
+**`reverse.pipe.ts`**:
+
+```typescript
+import {Component} from '@angular/core';
+import {ReversePipe} from './reverse.pipe';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    Reverse Machine: {{ word | reverse }}
+  `,
+  standalone: true,
+  imports: [ReversePipe],
+})
+export class AppComponent {
+  word = 'You are a champion';
+}
+
+
+```
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
