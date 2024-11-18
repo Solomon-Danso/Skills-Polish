@@ -14,6 +14,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { Router } from '@angular/router';
 
 
 
@@ -35,6 +36,8 @@ import autoTable from 'jspdf-autotable';
   ],
 })
 export class HydotTableComponent implements OnInit {
+
+  constructor(private router: Router) {}
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -71,10 +74,28 @@ export class HydotTableComponent implements OnInit {
     return 'text';
   }
 
-  handleAction(action: any, row: any): void {
+  handleAction = (action: any, row: any) => {
+    console.log("Handle Trigger");
+
     if (action.type === 'function') {
-      const params = action.columnNames.map((col: string) => row[col]);
-      action.onClick(...params);
+      // Handle function type actions
+      const params = action.columnNames.map((col: string) => {
+        return row[col];
+      });
+      action.onClick(...params);  // Pass parameters to the action handler
+    } else if (action.type === 'route') {
+      // Handle route type actions
+      let routePath = action.path;
+      // Replace the placeholders in the route path with the row's column data
+      Object.keys(row).forEach((key) => {
+        const value = row[key];
+        const placeholder = `:${key}`;
+        if (routePath.includes(placeholder)) {
+          routePath = routePath.replace(placeholder, value);
+        }
+      });
+      // Navigate to the dynamic route
+      this.router.navigate([routePath]);
     }
   }
 

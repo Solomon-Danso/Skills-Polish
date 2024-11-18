@@ -30,21 +30,38 @@ import { CommonModule } from '@angular/common';
 export class AppComponent {
   title = 'Hydot';
 
+  editUser = (id:any, name:any) => {
+    console.log(`Edit User's ID: ${id}, Name: ${name}`);
+  };
+
+
   menuItems = [
     {
       icon: 'edit',
       text: 'Edit',
       type: 'function',
-      onClick: (id:any) => console.log(`Edit ${id}`),
-      columnNames: ['id']
+      onClick: (Id: any, name:any) => {
+        this.editUser(Id, name);
+      },
+      columnNames: ['id', "name"]
+    },
+
+    {
+      icon: 'add',
+      text: 'Add',
+      type: 'route',
+     path: "/user/:id",
     },
   ];
 
+
+
   dataColumns = ['id', 'name', 'imageUrl'];
 
+
   data = [
-    { id: 1, name: 'John Doe', imageUrl: 'https://example.com/image1.jpg' },
-    { id: 2, name: 'Jane Doe', imageUrl: 'https://example.com/image2.png' },
+    { id: 1, name: 'John Doe', imageUrl: 'https://adminpanel.hydottech.com/static/media/HydotLogo.04eff451eee1d8e110a9.png' },
+    { id: 2, name: 'Jane Doe', imageUrl: 'https://adminpanel.hydottech.com/static/media/HydotLogo.04eff451eee1d8e110a9.png' },
   ];
 
 
