@@ -1,0 +1,32 @@
+.table-container {
+  margin: 16px;
+  overflow-x: auto;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+mat-paginator {
+  margin-top: 16px;
+}
+
+.user-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.user-pic-large {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin: auto;
+  display: block;
+}
+
+.picture-dropdown {
+  text-align: center;
+}

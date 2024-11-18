@@ -980,21 +980,8 @@ export class AppComponent {
 
 ---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Production Command 
+ng build --configuration production
 
 
 
