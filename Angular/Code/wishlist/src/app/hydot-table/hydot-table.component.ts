@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -14,7 +14,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import html2canvas from 'html2canvas';
 
 
 
@@ -40,20 +39,46 @@ export class HydotTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  dataSource = new MatTableDataSource<any>(); // Initialize as an empty MatTableDataSource
 
-  displayedColumns: string[] = ['picture', 'action', 'batchId', 'chequeId', 'accountName'];
+  @Input() data: any[] = []; // Data to display in the table
+  @Input() dataColumns: string[] = []; // Columns to display
+  @Input() menuItems: any[] = []; // Actions
+
+
+  dataSource = new MatTableDataSource<any>();
+  displayedColumns: string[] = [];
 
   ngOnInit(): void {
-    // Set data for the dataSource after fetching from getMockData
-    this.dataSource.data = this.getMockData();
+    this.dataSource.data = this.data;
+    this.displayedColumns = [...this.dataColumns, 'action'];
   }
 
   ngAfterViewInit(): void {
-    // Initialize paginator and sort
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
+
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
+  }
+
+  getFileType(value: string): string {
+    if (/\.(jpg|jpeg|png|gif)$/i.test(value)) return 'image';
+    if (/\.(mp4|mov|avi)$/i.test(value)) return 'video';
+    if (/\.(mp3|wav)$/i.test(value)) return 'audio';
+    if (/\.(pdf)$/i.test(value)) return 'pdf';
+    return 'text';
+  }
+
+  handleAction(action: any, row: any): void {
+    if (action.type === 'function') {
+      const params = action.columnNames.map((col: string) => row[col]);
+      action.onClick(...params);
+    }
+  }
+
+
 
   // Modified getMockData to return mock data dynamically
   getMockData() {
@@ -67,10 +92,7 @@ export class HydotTableComponent implements OnInit {
     ];
   }
 
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
+
 
   viewDetails(row: any): void {
     alert('Viewing details for: ' + row.ChequeId);
@@ -201,80 +223,6 @@ export class HydotTableComponent implements OnInit {
 
 
 
-
-exportToPDFNew(): void {
-  const tableElement = document.querySelector('.table-Selector table') as HTMLElement;
-
-  if (!tableElement) {
-    console.error('Table not found!');
-    return;
-  }
-
-  const tempDiv = document.createElement('div');
-  tempDiv.innerHTML = tableElement.outerHTML;
-
-  // Find the "Action" column and remove it
-  const actionIndex = Array.from(tempDiv.querySelectorAll('th')).findIndex(th =>
-    th.textContent?.trim().toLowerCase() === 'action'
-  ) + 1;
-
-  if (actionIndex > 0) {
-    tempDiv.querySelectorAll(`th:nth-child(${actionIndex})`).forEach(th => th.remove());
-    tempDiv.querySelectorAll(`td:nth-child(${actionIndex})`).forEach(td => td.remove());
-  }
-
-  const modifiedTable = tempDiv.querySelector('table')?.outerHTML || '';
-
-  // Generate a timestamp
-  const now = new Date();
-  const datePart = now.toISOString().split('T')[0]; // YYYY-MM-DD
-  const timePart = now.toTimeString().split(' ')[0].replace(/:/g, '-'); // HH-MM-SS
-  const timestamp = `${datePart}_${timePart}`; // Combine date and time
-
-  // Create a jsPDF instance
-  const pdf = new jsPDF({
-    orientation: 'portrait',
-    unit: 'pt',
-    format: 'a4',
-  });
-
-  // Add a title and custom header
-  pdf.setFontSize(18);
-  pdf.text('Hydot Tech', pdf.internal.pageSize.getWidth() / 2, 40, { align: 'center' });
-
-  pdf.setFontSize(12);
-  pdf.text(
-    `Address Line 1\nAddress Line 2\nContact: +123-456-7890`,
-    pdf.internal.pageSize.getWidth() / 2,
-    60,
-    { align: 'center' }
-  );
-
-  // Add the table using autoTable
-  autoTable(pdf, {
-    html: `<table>${modifiedTable}</table>`,
-    startY: 80,
-    styles: {
-      fontSize: 10,
-      cellPadding: 5,
-      textColor: [0, 0, 0],
-      lineColor: [0, 0, 0],
-    },
-    headStyles: {
-      fillColor: [242, 242, 242], // Light gray
-    },
-  });
-
-  // Add a footer
-  const pageHeight = pdf.internal.pageSize.getHeight();
-  pdf.setFontSize(10);
-  pdf.text('Thank you for shopping with us!', pdf.internal.pageSize.getWidth() / 2, pageHeight - 30, {
-    align: 'center',
-  });
-
-  // Save the PDF with a timestamped filename
-  pdf.save(`HydotTech_${timestamp}.pdf`);
-}
 
 
 

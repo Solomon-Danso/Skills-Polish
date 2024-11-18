@@ -29,4 +29,24 @@ import { CommonModule } from '@angular/common';
 })
 export class AppComponent {
   title = 'Hydot';
+
+  menuItems = [
+    {
+      icon: 'edit',
+      text: 'Edit',
+      type: 'function',
+      onClick: (id:any) => console.log(`Edit ${id}`),
+      columnNames: ['id']
+    },
+  ];
+
+  dataColumns = ['id', 'name', 'imageUrl'];
+
+  data = [
+    { id: 1, name: 'John Doe', imageUrl: 'https://example.com/image1.jpg' },
+    { id: 2, name: 'Jane Doe', imageUrl: 'https://example.com/image2.png' },
+  ];
+
+
+
 }
