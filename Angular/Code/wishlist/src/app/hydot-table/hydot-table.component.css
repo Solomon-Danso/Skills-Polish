@@ -30,3 +30,79 @@ mat-paginator {
 .picture-dropdown {
   text-align: center;
 }
+
+
+/* Glass Card Design */
+.glass-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Filter and Buttons Layout */
+.top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.filter-field {
+  flex: 1;
+  max-width: 200px;
+  border-radius: 8px; /* Rounded corners */
+}
+
+.action-buttons button {
+  margin-left: 8px;
+  margin-top: 8px;
+}
+
+.action-buttons button:nth-child(1){
+  background-color: #B3DFB5;
+  color: black;
+}
+
+.action-buttons button:nth-child(2){
+  background-color: #FB9779;
+  color: black;
+}
+
+
+/* Table Styling */
+.mat-elevation-z8 {
+  border-radius: 8px;
+  gap: 0.5rem;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .top-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-field {
+    max-width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .action-buttons button {
+    width: 100%;
+    margin: 4px 0;
+  }
+
+  table {
+    font-size: 14px;
+  }
+}
+
+.filter-field .mat-form-field-wrapper {
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(5px);
+  padding: 4px;
+}

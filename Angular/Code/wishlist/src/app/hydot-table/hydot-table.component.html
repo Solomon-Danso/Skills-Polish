@@ -1,68 +1,82 @@
-<div class="table-container">
-  <!-- Filter Input -->
-  <mat-form-field appearance="outline" class="filter-field">
-    <mat-label>Filter</mat-label>
-    <input matInput (input)="applyFilter($event)" placeholder="Type to filter">
-  </mat-form-field>
+<div class="glass-card table-container">
+  <!-- Top Row: Filter and Action Buttons -->
+  <div class="top-row">
+    <!-- Filter Input -->
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Filter</mat-label>
+      <input matInput (input)="applyFilter($event)" placeholder="Type to filter">
+    </mat-form-field>
 
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button mat-raised-button color="primary" (click)="exportToExcel()">Export to Excel</button>
+      <button mat-raised-button color="warn" (click)="printTable()">Print</button>
+    </div>
+  </div>
+
+  <div class="table-Selector">
+
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <!-- Action Column -->
+      <ng-container matColumnDef="action" class="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button [matMenuTriggerFor]="actionMenu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #actionMenu="matMenu">
+            <button mat-menu-item (click)="viewDetails(row)">
+              <mat-icon>visibility</mat-icon>
+              <span>View</span>
+            </button>
+            <button mat-menu-item color="warn" (click)="stopBatch(row)">
+              <mat-icon>block</mat-icon>
+              <span>Stop</span>
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <!-- User Picture Column -->
+      <ng-container matColumnDef="picture">
+        <th mat-header-cell *matHeaderCellDef> Picture </th>
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button [matMenuTriggerFor]="pictureMenu">
+            <img [src]="row.Picture" alt="User Picture" class="user-pic">
+          </button>
+          <mat-menu #pictureMenu="matMenu" class="picture-dropdown">
+            <img [src]="row.Picture" alt="User Picture Enlarged" class="user-pic-large">
+          </mat-menu>
+        </td>
+      </ng-container>
+
+      <!-- Batch ID Column -->
+      <ng-container matColumnDef="batchId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Batch ID </th>
+        <td mat-cell *matCellDef="let row"> {{ row.BatchId }} </td>
+      </ng-container>
+
+      <!-- Cheque ID Column -->
+      <ng-container matColumnDef="chequeId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Cheque ID </th>
+        <td mat-cell *matCellDef="let row"> {{ row.ChequeId }} </td>
+      </ng-container>
+
+      <!-- Account Name Column -->
+      <ng-container matColumnDef="accountName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Account Name </th>
+        <td mat-cell *matCellDef="let row"> {{ row.AccountName }} </td>
+      </ng-container>
+
+      <!-- Table Header and Rows -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+  </div>
   <!-- Table -->
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-    <!-- Action Column -->
-    <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef> Action </th>
-      <td mat-cell *matCellDef="let row">
-        <button mat-icon-button [matMenuTriggerFor]="actionMenu">
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #actionMenu="matMenu">
-          <button mat-menu-item (click)="viewDetails(row)">
-            <mat-icon>visibility</mat-icon>
-            <span>View</span>
-          </button>
-          <button mat-menu-item color="warn" (click)="stopBatch(row)">
-            <mat-icon>block</mat-icon>
-            <span>Stop</span>
-          </button>
-        </mat-menu>
-      </td>
-    </ng-container>
 
-    <!-- User Picture Column -->
-    <ng-container matColumnDef="picture">
-      <th mat-header-cell *matHeaderCellDef> Picture </th>
-      <td mat-cell *matCellDef="let row">
-        <button mat-icon-button [matMenuTriggerFor]="pictureMenu">
-          <img [src]="row.Picture" alt="User Picture" class="user-pic">
-        </button>
-        <mat-menu #pictureMenu="matMenu" class="picture-dropdown">
-          <img [src]="row.Picture" alt="User Picture Enlarged" class="user-pic-large">
-        </mat-menu>
-      </td>
-    </ng-container>
-
-    <!-- Batch ID Column -->
-    <ng-container matColumnDef="batchId">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Batch ID </th>
-      <td mat-cell *matCellDef="let row"> {{ row.BatchId }} </td>
-    </ng-container>
-
-    <!-- Cheque ID Column -->
-    <ng-container matColumnDef="chequeId">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Cheque ID </th>
-      <td mat-cell *matCellDef="let row"> {{ row.ChequeId }} </td>
-    </ng-container>
-
-    <!-- Account Name Column -->
-    <ng-container matColumnDef="accountName">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Account Name </th>
-      <td mat-cell *matCellDef="let row"> {{ row.AccountName }} </td>
-    </ng-container>
-
-    <!-- Table Header and Rows -->
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
 
   <!-- Paginator -->
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 50, 100, 300, 500, 1000, 10000]" showFirstLastButtons></mat-paginator>
 </div>
