@@ -56,7 +56,7 @@ export class AppComponent {
 
 
 
-  dataColumns = ['id', 'name', 'Url']; // This is your dynamic list of columns
+  dataColumns = ['id', 'name', 'Url','a','b','c','d','e','f']; // This is your dynamic list of columns
 
   // Define the order of columns, making sure 'action' comes first
 
@@ -65,9 +65,9 @@ export class AppComponent {
 
 
   data = [
-    { id: 1, name: 'John Doe', Url: 'https://adminpanel.hydottech.com/static/media/HydotLogo.04eff451eee1d8e110a9.png' },
-    { id: 2, name: 'Jane Doe', Url: 'https://adminpanel.hydottech.com/static/media/HydotLogo.04eff451eee1d8e110a9.png' },
-    { id: 3, name: 'Kofi Doe', Url: 'https://fashionapi.hydottech.com/storage/mmynXBosXA9MkiKUWbGoBBTSilmUITCNAkG1Z7sK.mp4' },
+    { id: 1, name: 'John Doe', Url: 'https://adminpanel.hydottech.com/static/media/HydotLogo.04eff451eee1d8e110a9.png',a:"aLanga",b:"bLanga",c:"cLanga",d:"dLanga",e:"eLanga",f:"fLanga" },
+    { id: 2, name: 'Jane Doe', Url: 'https://adminpanel.hydottech.com/static/media/HydotLogo.04eff451eee1d8e110a9.png',a:"aLanga",b:"bLanga",c:"cLanga",d:"dLanga",e:"eLanga",f:"fLanga" },
+    { id: 3, name: 'Kofi Doe', Url: 'https://fashionapi.hydottech.com/storage/mmynXBosXA9MkiKUWbGoBBTSilmUITCNAkG1Z7sK.mp4',a:"aLanga",b:"bLanga",c:"cLanga",d:"dLanga",e:"eLanga",f:"fLanga" },
   ];
 
 
