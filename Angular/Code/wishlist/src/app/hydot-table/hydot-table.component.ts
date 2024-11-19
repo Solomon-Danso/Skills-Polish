@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
-  selector: 'app-hydot-table',
+  selector: 'HydotTable',
   templateUrl: './hydot-table.component.html',
   styleUrls: ['./hydot-table.component.css'],
   imports: [
