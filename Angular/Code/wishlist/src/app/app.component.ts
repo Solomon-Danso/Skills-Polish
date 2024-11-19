@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { StepperComponent } from './stepper/stepper.component';
+import { ShowService } from './show.service';
 
 @Component({
   selector: 'app-root',
@@ -31,6 +32,35 @@ import { StepperComponent } from './stepper/stepper.component';
 })
 export class AppComponent {
   title = 'Hydot';
+
+
+  googleMapsUrl = 'https://maps.google.com';
+
+  constructor(private showService: ShowService) {}
+
+  showSuccess() {
+    this.showService.Success('Operation completed successfully!');
+  }
+
+  showConfirmation() {
+    this.showService.Confirm('Would you like to get directions to the business?', () => {
+      // Create an anchor element
+      const link = document.createElement('a');
+      link.href = this.googleMapsUrl;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer'; // Security best practice
+
+      // Append the link to the body (necessary for Safari)
+      document.body.appendChild(link);
+
+      // Programmatically click the link
+      link.click();
+
+      // Remove the link after clicking
+      document.body.removeChild(link);
+    });
+  }
+
 
   editUser = (id:any, name:any) => {
     console.log(`Edit User's ID: ${id}, Name: ${name}`);
