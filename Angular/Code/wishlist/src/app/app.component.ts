@@ -56,7 +56,13 @@ export class AppComponent {
 
 
 
-  dataColumns = ['id', 'name', 'imageUrl'];
+  dataColumns = ['id', 'name', 'imageUrl']; // This is your dynamic list of columns
+
+  // Define the order of columns, making sure 'action' comes first
+  displayedColumns = ['action', ...this.dataColumns];  // Action column will be first
+
+
+
 
 
   data = [

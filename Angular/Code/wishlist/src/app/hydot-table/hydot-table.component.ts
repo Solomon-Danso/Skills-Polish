@@ -101,27 +101,6 @@ export class HydotTableComponent implements OnInit {
 
 
 
-  // Modified getMockData to return mock data dynamically
-  getMockData() {
-    return [
-      { BatchId: '102', ChequeId: 'CHK001', AccountName: 'John Doe', Picture: 'https://glydetek.com/wp-content/uploads/2020/09/gt_only_logo.png' },
-      { BatchId: '103', ChequeId: 'CHK002', AccountName: 'Jane Smith', Picture: 'https://glydetek.com/wp-content/uploads/2020/09/gt_only_logo.png' },
-      { BatchId: '102', ChequeId: 'CHK001', AccountName: 'John Doe', Picture: 'https://glydetek.com/wp-content/uploads/2020/09/gt_only_logo.png' },
-      { BatchId: '103', ChequeId: 'CHK002', AccountName: 'Jane Smith', Picture: 'https://glydetek.com/wp-content/uploads/2020/09/gt_only_logo.png' },
-      { BatchId: '102', ChequeId: 'CHK001', AccountName: 'John Doe', Picture: 'https://glydetek.com/wp-content/uploads/2020/09/gt_only_logo.png' },
-
-    ];
-  }
-
-
-
-  viewDetails(row: any): void {
-    alert('Viewing details for: ' + row.ChequeId);
-  }
-
-  stopBatch(row: any): void {
-    alert('Stopping batch for: ' + row.BatchId);
-  }
 
   now = new Date();
  datePart = this.now.toISOString().split('T')[0]; // YYYY-MM-DD
