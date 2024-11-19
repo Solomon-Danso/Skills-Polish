@@ -13,16 +13,19 @@ mat-paginator {
 }
 
 .user-pic {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 5vw;
+  height:8vh;
+  border-radius: 0.5rem;
   cursor: pointer;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+  -ms-border-radius: 0.5rem;
+  -o-border-radius: 0.5rem;
 }
 
 .user-pic-large {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
+  width: 100%;
+  min-height: 100%;
   margin: auto;
   display: block;
 }
