@@ -1,0 +1,14 @@
+.stepper-container {
+  margin: 2rem;
+}
+
+.step-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-container {
+  font-size: 24px;
+  color: orange;
+}

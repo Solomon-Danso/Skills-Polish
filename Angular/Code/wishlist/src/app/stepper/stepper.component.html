@@ -1,0 +1,40 @@
+<div class="stepper-container">
+  <mat-horizontal-stepper [linear]="false" [(selectedIndex)]="activeStep">
+    <mat-step *ngFor="let step of steps; let i = index">
+      <ng-template matStepLabel>
+        <div class="step-label">
+          <div class="icon-container">{{ getStepIcon(i) }}</div>
+          <span>{{ step }}</span>
+        </div>
+      </ng-template>
+      <div>
+        <ng-container *ngIf="activeStep === i">
+          <!-- Step Content -->
+          <div *ngIf="i === 0">
+            <h6>Select Cover Type</h6>
+            <!-- Add your inputs here -->
+
+          </div>
+          <div *ngIf="i === 1">
+            <h6>Upload Media</h6>
+            <!-- Add your file upload inputs here -->
+          </div>
+          <div *ngIf="i === 2">
+            <h6>Enter Details</h6>
+            <!-- Add your form fields here -->
+          </div>
+          <div *ngIf="i === 3">
+            <h6>Complete</h6>
+            <p>All steps completed. Ready to submit.</p>
+          </div>
+        </ng-container>
+      </div>
+      <div class="actions">
+        <button mat-button (click)="handleBack()" [disabled]="activeStep === 0">Back</button>
+        <button mat-raised-button color="primary" (click)="handleNext()">
+          {{ activeStep === steps.length - 1 ? 'Reset' : 'Next' }}
+        </button>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>

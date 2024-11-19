@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
+import { StepperComponent } from './stepper/stepper.component';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,7 @@ import { CommonModule } from '@angular/common';
     MatFormFieldModule,
     MatInputModule,
     CommonModule,
+    StepperComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'], // Corrected from `styleUrl` to `styleUrls`
