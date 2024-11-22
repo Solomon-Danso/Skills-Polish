@@ -1,0 +1,5 @@
+# Ignore everything in the venv folder
+MachineLearning/Code/*
+
+# Exclude Mac.py from being ignored
+!MachineLearning/Code/MachineLearning.py
