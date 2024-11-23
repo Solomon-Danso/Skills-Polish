@@ -1,3 +1,121 @@
+# **`Data Cleaning Full Course`**
+
+
+# Data Cleaning Using Pandas 
+import pandas as pd 
+
+
+## Load the Excel File 
+
+```
+df = pd.read_excel("Customer.xlsx")
+df
+```
+
+## Drop Duplicates
+
+```
+df = df.drop_duplicates()
+df
+```
+
+
+## Drop Columns
+
+```
+df = df.drop(columns=["Not_Useful_Column"])
+df
+```
+
+## Strip in Columns
+lstrip for striping from the left, rstrip will strip from the right 
+
+```
+df["Last_Name"] = df["Last_Name"].str.lstrip("...")
+df
+
+```
+Strip all at once 
+
+```
+df["Last_Name"] = df["Last_Name"].str.strip("_/.")
+df
+```
+
+## Replace in Columns
+
+```
+df["Phone_Number"] = df["Phone_Number"].str.replace('[^a-zA-Z0-9]','', regex=True)
+df["Phone_Number"] = df["Phone_Number"].str.replace("nan","")
+df
+
+```
+
+What the code will do is, it will replace the specific data with an empty string if 
+1. it is not a lower case alphabet (a-z)
+2. it is not an upper case alphabet (A-Z)
+3. it is not a number (0 - 9)
+If the data is not alphanumeric, replace it with an empty string
+
+
+## Convert it to string
+
+```
+df["Phone_Number"] = df["Phone_Number"].astype(str)
+
+```
+
+## Make it a standard format 
+
+```
+df["Phone_Number"] = df["Phone_Number"].apply(lambda x: f"{x[:3]}-{x[3:6]}-{x[6:]}" if len(x) == 10 else x)
+```
+
+
+## Split Based On Columns 
+
+```
+df[["First","Second","Third"]] = df["Address"].str.split(',', n=2, expand=True)
+df
+
+```
+
+## Remove all the None and NaN values 
+
+```
+df = df.fillna('')
+df
+```
+
+## Drop or remove specific Data with Empty Phone Number 
+
+```
+for x in df.index:
+    if df.loc[x, "Phone_Number"] == "":
+        df.drop(x, inplace=True)
+
+```
+
+## Reset The Clean Data By Index
+
+```
+df = df.reset_index(drop=True)
+df = df.reset_index(drop=True)
+df
+
+
+```
+
+## Save The Final Data 
+
+```
+df.to_excel("CleanData.xlsx", index=False)
+
+```
+
+
+
+# **`Machine Learning Full Course`**
 
 ```python
 import pandas as pd
